@@ -60,11 +60,11 @@
 
   // Import Feature Layer from AGOL
   const featureLayer = new FeatureLayer({
-  //   portalItem: {
-	// // Drawing T-Rex in Hong Kong feature layer
-	// id: "cb0c6d9d713b484484831b8e42a90824"
-    url: "https://fleming.maps.arcgis.com/home/item.html?id=cb0c6d9d713b484484831b8e42a90824"
-	});
+    portalItem: {
+
+	id: "cb0c6d9d713b484484831b8e42a90824"
+  //   url: "https://fleming.maps.arcgis.com/home/item.html?id=cb0c6d9d713b484484831b8e42a90824"
+	}});
 	
   // Add feature layer to map view
   myMap.add(featureLayer);

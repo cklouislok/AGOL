@@ -21,12 +21,11 @@
   // Load required modules
   require([
     "esri/config",
-    "esri/Map",
+    "esri/WebMap",
     "esri/views/MapView",
-	  "esri/layers/FeatureLayer",
     "esri/Graphic",
     "esri/layers/GraphicsLayer"
-    ], function(esriConfig, Map, MapView, FeatureLayer, Graphic, GraphicsLayer) {
+    ], function(esriConfig, WebMap, MapView, Graphic, GraphicsLayer) {
 	
   esriConfig.apiKey = "AAPK7ea8e38f6b4b4f969ab170c41c01634akao_m4e5gL3AyABug_bvD9dN7kbXw7BSISXg4Y558XYUVj59ej6DtByYM0Cms4Tz";
 
@@ -37,37 +36,15 @@
 
 
   // Create Basemap
-  const myMap = new Map({
-    basemap: "streets" // basemap styles service
-  });
+  const myMap = new WebMap({
+      portalItem: {  // autocasts as esri/portal/PortalItem
+      id: "cb0c6d9d713b484484831b8e42a90824"
+  }});
 
   const view = new MapView({
     map: myMap,
-    center: 
-		[-96.8165356,
-        49.7714104], //Longitude, latitude
-    zoom: 3,
     container: "mapDiv"
   });
- 
-  // // references an ArcGIS Online item pointing to a Map Service Layer
-  // let layer = new MapImageLayer({
-  //   portalItem: {  // autocasts as esri/portal/PortalItem
-  //     id: "cb0c6d9d713b484484831b8e42a90824"
-  //   }
-  // });
-  // myMap.add(layer);  // adds the layer to the map
-
-  // Import Feature Layer from AGOL
-  const featureLayer = new FeatureLayer({
-    portalItem: {
-
-	id: "cb0c6d9d713b484484831b8e42a90824"
-  //   url: "https://fleming.maps.arcgis.com/home/item.html?id=cb0c6d9d713b484484831b8e42a90824/0"
-	}});
-	
-  // Add feature layer to map view
-  myMap.add(featureLayer);
 
   // Create a graphics layer for drawing geometries
   const graphicsLayer = new GraphicsLayer();

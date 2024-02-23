@@ -32,12 +32,13 @@
   // Create Basemap
   const myMap = new WebMap({
       portalItem: {  // autocasts as esri/portal/PortalItem
-      id: "de60a6babfa84c17a88b3d8acb2f0b83"
-  }});
+        id: "de60a6babfa84c17a88b3d8acb2f0b83"
+      }
+  });
 
   const view = new MapView({
-    map: myMap,
-    container: "mapDiv"
+    container: "mapDiv",
+    map: myMap
   });
 
   // Create a graphics layer for drawing geometries

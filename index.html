@@ -1,179 +1,537 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>Provinces of Canada</title>
-  <style>
-    html, body, #mapDiv {
-      padding: 0;
-      margin: 0;
-      height: 100%;
-      width: 100%;
-    }
-  </style>
-  <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
-  <script src="https://js.arcgis.com/4.28/"></script>
-  <script>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Provinces of Canada and Their Captial Cities and Official Birds</title>
+<style>
+	/* Set map height to define the size of the div element that contains the map*/
+	#topInfo {
+		height: 10%;
+		background-color: rgb(190, 212, 208);
+	}
+	h1 {
+		height: 70%;
+		margin: 0px;
+		text-align: center;
+	}
+	p {
+		height: 30%;
+		margin: 0px;
+		text-align: center;
+	}
+	#mapMain {
+		height: 90%;
+	}
+	/* Set size of html elements */
+	html,
+	body {
+		height: 100%;
+		margin: 0px;
+		padding: 0px;
+	}
+</style>
+<link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
+<script src="https://js.arcgis.com/4.28/"></script>
+<script>
 
-  // Adapted from ArcGIS Developers Tutorial "Add a point, line, and polygon" at https://developers.arcgis.com/javascript/latest/tutorials/add-a-point-line-and-polygon/
-  
-  // Load required modules
-  require([
-    "esri/config",
-    "esri/WebMap",
-    "esri/views/MapView",
-    "esri/Graphic",
-    "esri/layers/GraphicsLayer"
-    ], function(esriConfig, WebMap, MapView, Graphic, GraphicsLayer) {
+	// Load required modules
+	require([
+		"esri/config",
+		"esri/WebMap",
+		"esri/views/MapView",
+		"esri/Graphic",
+		"esri/layers/GraphicsLayer"
+		], function(esriConfig, WebMap, MapView, Graphic, GraphicsLayer) {
+
+	// Course API key
+	esriConfig.apiKey = "AAPK7ea8e38f6b4b4f969ab170c41c01634akao_m4e5gL3AyABug_bvD9dN7kbXw7BSISXg4Y558XYUVj59ej6DtByYM0Cms4Tz";
+
+	// Load Web Map from AGOL
+	const myMap = new WebMap({
+		portalItem: {
+		// Canada map from AGOL
+		id: "e4be9a850b084b4f8fcbc3ac6569bced"
+		}
+	});
 	
-  esriConfig.apiKey = "AAPK7ea8e38f6b4b4f969ab170c41c01634akao_m4e5gL3AyABug_bvD9dN7kbXw7BSISXg4Y558XYUVj59ej6DtByYM0Cms4Tz";
+	// Create MapView
+	const view = new MapView({
+		map: myMap,
+		center: 
+			[-94.9426676193598, 57.8938562392333], //Longitude, latitude
+		zoom: 4,
+		container: "mapMain"
+	});
 
-  // Create Basemap
-  const myMap = new WebMap({
-      portalItem: {  // autocasts as esri/portal/PortalItem
-        id: "de60a6babfa84c17a88b3d8acb2f0b83"
-      }
-  });
-
-  const view = new MapView({
-    container: "mapDiv",
-    map: myMap
-  });
-
-  // Create a graphics layer for drawing geometries
-  const graphicsLayer = new GraphicsLayer();
+	// Create a graphics layer for drawing geometries
+	const graphicsLayer = new GraphicsLayer();
   
-  // Add graphics layer to map view
-  myMap.add(graphicsLayer);
+	// Add graphics layer to map view on top of WebMap
+	// Reference: https://community.esri.com/t5/arcgis-javascript-maps-sdk-questions/graphics-layer-above-webmap-s-portlitem-order/m-p/1248586#M79920
+	view.when(() => {
+		myMap.layers.add(graphicsLayer);
+	});
 
-  // Create a point geometry
-  const point = {
-    type: "point",
-    longitude: 113.99489379449261,
-    latitude: 22.25393493251208
-  };
+	// Reference from Popup at https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html
+	view.popup.dockOptions = {
+		// Disable the dock button so users cannot undock the popup
+		buttonEnabled: false,
+		// Dock the popup when the size of the view is less than or equal to 600x1000 pixels
+		breakpoint: {
+			width: 600,
+			height: 1000
+		}
+	};
 
-  // Set up point marker styles
-  const pointMarker = {
-    type: "simple-marker",
-    color: [0, 0, 0],  // Black
-	// Intended to have the point size fixed, but it varies with the map scale
-	size: "48px",
-    outline: {
-        color: [0, 0, 0], // Black
-    }
-  };
+	// Create point geometry for the captal cities of all 13 provinces and territories
+	// const name is named after the province/territory name
+	const pointCCAB = {
+		type: "point",
+		longitude: -113.490278,
+		latitude: 53.534444
+	};
 
-  // Create point graphic
-  const pointGraphic = new Graphic({
-    geometry: point,
-    symbol: pointMarker
-  });
-  
-  // Create polygon geometries
-  const polygon_heart = {
-    type: "polygon",
-    rings: [
-        [114.01370959451276, 22.27712978531521],
-        [114.01070653906481, 22.27822711966025],
-        [114.00832859345036, 22.27741043637503],
-		[114.00743517569299, 22.27538468573853],
-        [114.00784109827555, 22.27242104381434],
-        [114.01125292014382, 22.26954254023044],
-        [114.01625821334580, 22.26778466590278],
-        [114.02060734669050, 22.26683854328971],
-        [114.02161470600203, 22.27055764680928],
-        [114.02171638134274, 22.27418478299354],
-        [114.02129906482969, 22.27799388578749],
-        [114.01863604603273, 22.28056758043504],
-        [114.01580318228866, 22.28100633939115],
-        [114.01430564249665, 22.27943677615768]
-    ]
-  };
+	const pointCCBC = {
+		type: "point",
+		longitude: -123.365875,
+		latitude: 48.428517
+	};
 
-  const polygon_pacman = {
-    type: "polygon",
-    rings: [
-        [113.99366377294240, 22.24140692732507],
-        [114.01206531412527, 22.25347445742865],
-        [114.00643996318894, 22.25972964548130],
-        [113.99684516686835, 22.26365640177788],
-        [113.98668010601085, 22.26277608032035],
-        [113.97833114044784, 22.25470077289935],
-        [113.97352021325617, 22.24424823944556],
-        [113.97290024832057, 22.23298389397885],
-        [113.98047339345351, 22.22210170316538],
-        [113.99189772254977, 22.21661564451776],
-        [114.00630982280654, 22.21711217190312],
-        [114.01500735363561, 22.22423518182782],
-        [114.02115827005741, 22.23168038797230]
-    ]
-  };
+	const pointCCMB = {
+		type: "point",
+		longitude: -97.139167,
+		latitude: 49.899444
+	};
 
-  // Set up polygon styles
-  const simpleFillSymbol_heart = {
-    type: "simple-fill",
-    color: [255, 105, 180, 0.4],  // Pink, opacity 40%
-    outline: {
-        color: [255, 0, 0],
-        width: 2
-    }
-  };
- 
-  const simpleFillSymbol_pacman = {
-    type: "simple-fill",
-    color: [255, 255, 0, 0.4],  // Yellow, opacity 40%
-    outline: {
-        color: [0, 0, 0],
-        width: 2
-    }
-  };
+	const pointCCNB = {
+		type: "point",
+		longitude: -66.666667,
+		latitude: 45.95
+	};
 
-  // Set up pop-up template
-  const popupTemplate = {
-    title: "{Name}",
-    content: "{Description}"
-  }
-  
-  // Set the info to display in the pop-up when the features are clicked
-  // Also attempted to set up the same popupTemplate for the T-Rex feature layer but failed.
-  // In this connection, the pop-up info is modified directly on the Feature Layer on AGOL.
-  const attributes_heart = {
-    Name: "Elixir of Life",
-    Description: "Catch me if you can!"
-  }
+	const pointCCNL = {
+		type: "point",
+		longitude: -52.745490,
+		latitude: 47.555559
+	};
 
-  const attributes_pacman = {
-    Name: "Pac-man",
-    Description: "I've been waiting for you so long, T-Rex!"
-  }
+	const pointCCNS = {
+		type: "point",
+		longitude: -63.571389,
+		latitude: 44.647778
+	};
 
-  // Create polygon graphics
-  const polygonGraphic_heart = new Graphic({
-    geometry: polygon_heart,
-    symbol: simpleFillSymbol_heart,
-    attributes: attributes_heart,
-    popupTemplate: popupTemplate
-  });
- 
-  const polygonGraphic_pacman = new Graphic({
-    geometry: polygon_pacman,
-    symbol: simpleFillSymbol_pacman,
-    attributes: attributes_pacman,
-    popupTemplate: popupTemplate
-  });
-  
-  // Add the polygon and point graphics to map view
-  // With this order, the dot (eye) will be above the Pac-man layer
-  graphicsLayer.add(polygonGraphic_heart);
-  graphicsLayer.add(polygonGraphic_pacman);
-  graphicsLayer.add(pointGraphic);
-  });
-  
+	const pointCCON = {
+		type: "point",
+		longitude: -79.373333,
+		latitude: 43.741667
+	};
+
+	const pointCCPEI = {
+		type: "point",
+		longitude: -63.15,
+		latitude: 46.233333
+	};
+
+	const pointCCQC = {
+		type: "point",
+		longitude: -71.209223,
+		latitude: 46.814606
+	};
+
+	const pointCCSK = {
+		type: "point",
+		longitude: -104.606667,
+		latitude: 50.454722
+	};
+
+	const pointCCYT = {
+		type: "point",
+		longitude: -135.05,
+		latitude: 60.716667
+	};
+
+	const pointCCNU = {
+		type: "point",
+		longitude: -68.519722,
+		latitude: 63.748611
+	};
+
+	const pointCCNT = {
+		type: "point",
+		longitude: -114.371960,
+		latitude: 62.453992
+	};
+
+
+
+	
+	// Symbol from https://developers.arcgis.com/javascript/3/samples/portal_symbols/index.html
+	const symbolPrairies = {
+		type: "picture-marker",
+		url: "http://static.arcgis.com/images/Symbols/OutdoorRecreation/Park.png",
+		width: "30px",
+		height: "30px"
+	};
+
+	const symbolPacific = {
+		type: "picture-marker",
+		url: "http://static.arcgis.com/images/Symbols/OutdoorRecreation/Mountain.png",
+		width: "30px",
+		height: "30px"
+	};
+
+	const symbolCentral = {
+		type: "picture-marker",
+		url: "http://static.arcgis.com/images/Symbols/PeoplePlaces/Museum.png",
+		width: "30px",
+		height: "30px"
+	};
+
+	const symbolAtlantic = {
+		type: "picture-marker",
+		url: "http://static.arcgis.com/images/Symbols/OutdoorRecreation/Fishing.png",
+		width: "30px",
+		height: "30px"
+	};
+
+	const symbolNorthern = {
+		type: "picture-marker",
+		url: "http://static.arcgis.com/images/Symbols/OutdoorRecreation/Snow.png",
+		width: "30px",
+		height: "30px"
+	};
+
+
+	// Configure popups for each point marker
+	// Adding images adapted from MediaContent and ImageMediaInfo at 
+	// https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html
+	// https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html
+	const popupCCAB = {
+		title: "Edmonton - Capital City of Alberta",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Great Horned Owl</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Great_horned_owl
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Bubo_virginianus_06.jpg/384px-Bubo_virginianus_06.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCBC = {
+		title: "Victoria - Capital City of Bristish Columbia",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Steller's Say</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Steller%27s_jay
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Steller%27s_Jay_flagstaff_arizona.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCMB = {
+		title: "Winnipeg - Capital City of Monitoba",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Great Grey Owl</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Great_grey_owl
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Strix_nebulosaRB.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCNB = {
+		title: "Fredericton - Capital City of New Brunswick",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Black-capped Chickadee</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Black-capped_chickadee
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Poecile-atricapilla-001.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCNL = {
+		title: "St. John's - Capital City of Newfoundland and Labrador",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Atlantic Puffin</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Atlantic_puffin
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Puffin_%28Fratercula_arctica%29.jpg"
+					}
+				}]
+			}
+		]
+	};
+	
+	const popupCCNS = {
+		title: "Halifax - Capital City of Nova Scotia",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Osprey</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Osprey
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/0/0b/Osprey_on_nest.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCON = {
+		title: "Toronto - Capital City of Ontario",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Common Loon</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Common_loon
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/b/b0/Gavia_immer_-Minocqua%2C_Wisconsin%2C_USA_-swimming-8.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCPEI = {
+		title: "Charlottetown - Capital City of Price Edward Island",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Blue Jay</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Blue_jay
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/f/f4/Blue_jay_in_PP_%2830960%29.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCQC = {
+		title: "Quebec City - Capital City of Quebec",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Snowy Owl</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Snowy_owl
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Snowy_Owl_%28240866707%29.jpeg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCSK = {
+		title: "Regina - Capital City of Saskatchewan",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Sharp-tailed Grouse</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Sharp-tailed_grouse
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Sharp-Tailed_Grouse_%2826089894256%29_%28cropped%29.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCYT = {
+		title: "Whitehorse - Capital City of Yukon",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Common Raven</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Common_raven
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/3/30/Corvus_corax.001_-_Tower_of_London.JPG"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCNU = {
+		title: "Iqaluit - Capital City of Nunavut",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Rock Ptarmigan</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Rock_ptarmigan
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Rock_Ptarmigan_%28Lagopus_Muta%29.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCNT = {
+		title: "Yellowknife - Capital City of Northwest Territories",
+		content: [
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Gyrfalcon</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Gyrfalcon
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Falco_rusticolus_white_cropped.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	// Create point graphic
+	const CCAB = new Graphic({
+		geometry: pointCCAB,
+		symbol: symbolPrairies,
+		popupTemplate: popupCCAB
+	});
+	
+	const CCBC = new Graphic({
+		geometry: pointCCBC,
+		symbol: symbolPacific,
+		popupTemplate: popupCCBC
+	});
+
+	const CCMB = new Graphic({
+		geometry: pointCCMB,
+		symbol: symbolPrairies,
+		popupTemplate: popupCCMB
+	});
+
+	const CCNB = new Graphic({
+		geometry: pointCCNB,
+		symbol: symbolAtlantic,
+		popupTemplate: popupCCNB
+	});
+	
+	const CCNL = new Graphic({
+		geometry: pointCCNL,
+		symbol: symbolAtlantic,
+		popupTemplate: popupCCNL
+	});
+
+	const CCNS = new Graphic({
+		geometry: pointCCNS,
+		symbol: symbolAtlantic,
+		popupTemplate: popupCCNS
+	});
+
+	const CCON = new Graphic({
+		geometry: pointCCON,
+		symbol: symbolCentral,
+		popupTemplate: popupCCON
+	});
+
+	const CCPEI = new Graphic({
+		geometry: pointCCPEI,
+		symbol: symbolAtlantic,
+		popupTemplate: popupCCPEI
+	});
+	
+	const CCQC = new Graphic({
+		geometry: pointCCQC,
+		symbol: symbolCentral,
+		popupTemplate: popupCCQC
+	});
+	
+	const CCSK = new Graphic({
+		geometry: pointCCSK,
+		symbol: symbolPrairies,
+		popupTemplate: popupCCSK
+	});
+
+	const CCYT = new Graphic({
+		geometry: pointCCYT,
+		symbol: symbolNorthern,
+		popupTemplate: popupCCYT
+	});
+
+	const CCNU = new Graphic({
+		geometry: pointCCNU,
+		symbol: symbolNorthern,
+		popupTemplate: popupCCNU
+	});
+
+	const CCNT = new Graphic({
+		geometry: pointCCNT,
+		symbol: symbolNorthern,
+		popupTemplate: popupCCNT
+	});
+
+	// Display point graphics
+	graphicsLayer.add(CCAB);
+	graphicsLayer.add(CCBC);
+	graphicsLayer.add(CCMB);
+	graphicsLayer.add(CCNB);
+	graphicsLayer.add(CCNL);
+	graphicsLayer.add(CCNS);
+	graphicsLayer.add(CCON);
+	graphicsLayer.add(CCPEI);
+	graphicsLayer.add(CCQC);
+	graphicsLayer.add(CCSK);
+	graphicsLayer.add(CCYT);
+	graphicsLayer.add(CCNU);
+	graphicsLayer.add(CCNT);
+
+});
+
 </script>
 </head>
 <body>
-  <div id="mapDiv"></div>
+	<div id="topInfo">
+        <h1>Provinces of Canada and Their Captial Cities and Official Birds</h1>
+        <p>Click on a one of the 13 markers to view the capital city and official bird of a province/territories.</p>
+    </div>
+<div id="mapMain"></div>
 </body>
 </html>

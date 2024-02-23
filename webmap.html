@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Provinces of Canada</title>
+<style>
+	html, body, #mapDiv {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	}
+</style>
+<link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
+<script src="https://js.arcgis.com/4.28/"></script>
+<script>
+
+	// Adapted from ArcGIS Developers Tutorial "Add a point, line, and polygon" at https://developers.arcgis.com/javascript/latest/tutorials/add-a-point-line-and-polygon/
+
+	// Load required modules
+	require([
+		"esri/config",
+		"esri/WebMap",
+		"esri/views/MapView",
+		"esri/layers/FeatureLayer",
+		"esri/Graphic",
+		"esri/layers/GraphicsLayer"
+		], function(esriConfig, WebMap, MapView, FeatureLayer, Graphic, GraphicsLayer) {
+
+	esriConfig.apiKey = "AAPK7ea8e38f6b4b4f969ab170c41c01634akao_m4e5gL3AyABug_bvD9dN7kbXw7BSISXg4Y558XYUVj59ej6DtByYM0Cms4Tz";
+
+	// Create Basemap
+	const myMap = new WebMap({
+		portalItem: {
+		// Canada map
+		id: "e4be9a850b084b4f8fcbc3ac6569bced"
+		}
+	});
+	
+	// Create MapView
+	const view = new MapView({
+		map: myMap,
+		center: 
+			[-97.9426676193598, 70.8938562392333], //Longitude, latitude
+		zoom: 3 ,
+		container: "mapDiv"
+	});
+
+	// Create a graphics layer for drawing geometries
+	const graphicsLayer = new GraphicsLayer();
+  
+	// Add graphics layer to map view
+	myMap.add(graphicsLayer);
+
+	// Create a point geometry
+	const point = {
+		type: "point",
+		longitude: -113.490278,
+		latitude: 53.534444
+	};
+	
+	const symbolPrairies = {
+		type: "picture-marker",
+		url: "http://static.arcgis.com/images/Symbols/OutdoorRecreation/Park.png",
+		size: "16px"
+	};
+
+	// Create point graphic
+	const pointGraphic = new Graphic({
+		geometry: point,
+		symbol: symbolPrairies,
+	});
+
+	// Set up pop-up template
+	const popupTemplate = {
+		title: "{PRENAME} / {PRFNAME}",
+		content: [
+			{
+				type: "text",
+				text: "Official Bird"
+			}
+		]
+	};
+	
+
+
+
+	graphicsLayer.add(pointGraphic);
+
+	
+});
+
+</script>
+</head>
+<body>
+<div id="mapDiv"></div>
+</body>
+</html>

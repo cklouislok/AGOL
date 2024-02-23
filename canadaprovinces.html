@@ -60,6 +60,511 @@
 		
 	// Add feature layer to map view
 	myMap.add(featureLayer);
+
+
+	// Create a graphics layer for drawing geometries
+	const graphicsLayer = new GraphicsLayer();
+  
+	// Add graphics layer to map view
+	myMap.add(graphicsLayer);
+
+	// Create a point geometry for the captal cities of all 13 provinces and territories
+	const pointCCAB = {
+		type: "point",
+		longitude: -113.490278,
+		latitude: 53.534444
+	};
+
+	const pointCCBC = {
+		type: "point",
+		longitude: -123.365875,
+		latitude: 48.428517
+	};
+
+	const pointCCMB = {
+		type: "point",
+		longitude: -97.139167,
+		latitude: 49.899444
+	};
+
+	const pointCCNB = {
+		type: "point",
+		longitude: -66.666667,
+		latitude: 45.95
+	};
+
+	const pointCCNL = {
+		type: "point",
+		longitude: -52.745490,
+		latitude: 47.555559
+	};
+
+	const pointCCNS = {
+		type: "point",
+		longitude: -63.571389,
+		latitude: 44.647778
+	};
+
+	const pointCCON = {
+		type: "point",
+		longitude: -79.373333,
+		latitude: 43.741667
+	};
+
+	const pointCCPEI = {
+		type: "point",
+		longitude: -63.15,
+		latitude: 46.233333
+	};
+
+	const pointCCQC = {
+		type: "point",
+		longitude: -71.209223,
+		latitude: 46.814606
+	};
+
+	const pointCCSK = {
+		type: "point",
+		longitude: -104.606667,
+		latitude: 50.454722
+	};
+
+	const pointCCYT = {
+		type: "point",
+		longitude: -135.05,
+		latitude: 60.716667
+	};
+
+	const pointCCNU = {
+		type: "point",
+		longitude: -68.519722,
+		latitude: 63.748611
+	};
+
+	const pointCCNT = {
+		type: "point",
+		longitude: -114.371960,
+		latitude: 62.453992
+	};
+
+
+
+	
+	// Symbol from https://developers.arcgis.com/javascript/3/samples/portal_symbols/index.html
+	const symbolPrairies = {
+		type: "picture-marker",
+		url: "http://static.arcgis.com/images/Symbols/OutdoorRecreation/Park.png",
+		width: "30px",
+		height: "30px"
+	};
+
+	const symbolPacific = {
+		type: "picture-marker",
+		url: "http://static.arcgis.com/images/Symbols/OutdoorRecreation/Mountain.png",
+		width: "30px",
+		height: "30px"
+	};
+
+	const symbolCentral = {
+		type: "picture-marker",
+		url: "http://static.arcgis.com/images/Symbols/PeoplePlaces/Museum.png",
+		width: "30px",
+		height: "30px"
+	};
+
+	const symbolAtlantic = {
+		type: "picture-marker",
+		url: "http://static.arcgis.com/images/Symbols/OutdoorRecreation/Fishing.png",
+		width: "30px",
+		height: "30px"
+	};
+
+	const symbolNorthern = {
+		type: "picture-marker",
+		url: "http://static.arcgis.com/images/Symbols/OutdoorRecreation/Snow.png",
+		width: "30px",
+		height: "30px"
+	};
+
+
+
+
+	const popupCCAB = {
+		title: "Edmonton",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Alberta"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Great Horned Owl</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Great_horned_owl
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Bubo_virginianus_06.jpg/384px-Bubo_virginianus_06.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCBC = {
+		title: "Victoria",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Bristish Columbia"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Steller's Say</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Steller%27s_jay
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Steller%27s_Jay_flagstaff_arizona.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCMB = {
+		title: "Winnipeg",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Monitoba"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Great Grey Owl</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Great_grey_owl
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Strix_nebulosaRB.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCNB = {
+		title: "Fredericton",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of New Brunswick"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Black-capped Chickadee</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Black-capped_chickadee
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Poecile-atricapilla-001.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCNL = {
+		title: "St. John's",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Newfoundland and Labrador"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Atlantic Puffin</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Atlantic_puffin
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Puffin_%28Fratercula_arctica%29.jpg"
+					}
+				}]
+			}
+		]
+	};
+	
+	const popupCCNS = {
+		title: "Halifax",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Nova Scotia"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Osprey</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Osprey
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/0/0b/Osprey_on_nest.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCON = {
+		title: "Toronto",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Ontario"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Common Loon</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Common_loon
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/b/b0/Gavia_immer_-Minocqua%2C_Wisconsin%2C_USA_-swimming-8.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCPEI = {
+		title: "Charlottetown",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Price Edward Island"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Blue Jay</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Blue_jay
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/f/f4/Blue_jay_in_PP_%2830960%29.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCQC = {
+		title: "Quebec City",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Quebec"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Snowy Owl</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Snowy_owl
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Snowy_Owl_%28240866707%29.jpeg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCSK = {
+		title: "Regina",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Saskatchewan"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Sharp-tailed Grouse</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Sharp-tailed_grouse
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Sharp-Tailed_Grouse_%2826089894256%29_%28cropped%29.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCYT = {
+		title: "Whitehorse",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Yukon"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Common Raven</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Common_raven
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/3/30/Corvus_corax.001_-_Tower_of_London.JPG"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCNU = {
+		title: "Iqaluit",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Nunavut"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Rock Ptarmigan</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Rock_ptarmigan
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Rock_Ptarmigan_%28Lagopus_Muta%29.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+	const popupCCNT = {
+		title: "Yellowknife",
+		content: [
+			{
+				type: "text",
+				text: "Capital City of Northwest Territories"
+			},
+			{
+				type: "media",
+				mediaInfos: [{
+					title: "<b>Official Bird - Gyrfalcon</b>",
+					type: "image",
+					value: {
+						// Wikipedia: https://en.wikipedia.org/wiki/Gyrfalcon
+						sourceURL: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Falco_rusticolus_white_cropped.jpg"
+					}
+				}]
+			}
+		]
+	};
+
+
+
+	
+	// Create point graphic
+	const CCAB = new Graphic({
+		geometry: pointCCAB,
+		symbol: symbolPrairies,
+		popupTemplate: popupCCAB
+	});
+	
+	const CCBC = new Graphic({
+		geometry: pointCCBC,
+		symbol: symbolPacific,
+		popupTemplate: popupCCBC
+	});
+
+	const CCMB = new Graphic({
+		geometry: pointCCMB,
+		symbol: symbolPrairies,
+		popupTemplate: popupCCMB
+	});
+
+	const CCNB = new Graphic({
+		geometry: pointCCNB,
+		symbol: symbolAtlantic,
+		popupTemplate: popupCCNB
+	});
+	
+	const CCNL = new Graphic({
+		geometry: pointCCNL,
+		symbol: symbolAtlantic,
+		popupTemplate: popupCCNL
+	});
+
+	const CCNS = new Graphic({
+		geometry: pointCCNS,
+		symbol: symbolAtlantic,
+		popupTemplate: popupCCNS
+	});
+
+	const CCON = new Graphic({
+		geometry: pointCCON,
+		symbol: symbolCentral,
+		popupTemplate: popupCCON
+	});
+
+	const CCPEI = new Graphic({
+		geometry: pointCCPEI,
+		symbol: symbolAtlantic,
+		popupTemplate: popupCCPEI
+	});
+	
+	const CCQC = new Graphic({
+		geometry: pointCCQC,
+		symbol: symbolCentral,
+		popupTemplate: popupCCQC
+	});
+	
+	const CCSK = new Graphic({
+		geometry: pointCCSK,
+		symbol: symbolPrairies,
+		popupTemplate: popupCCSK
+	});
+
+	const CCYT = new Graphic({
+		geometry: pointCCYT,
+		symbol: symbolNorthern,
+		popupTemplate: popupCCYT
+	});
+
+	const CCNU = new Graphic({
+		geometry: pointCCNU,
+		symbol: symbolNorthern,
+		popupTemplate: popupCCNU
+	});
+
+	const CCNT = new Graphic({
+		geometry: pointCCNT,
+		symbol: symbolNorthern,
+		popupTemplate: popupCCNT
+	});
+
+
+
+
+
+
+	graphicsLayer.add(CCAB);
+	graphicsLayer.add(CCBC);
+	graphicsLayer.add(CCMB);
+	graphicsLayer.add(CCNB);
+	graphicsLayer.add(CCNL);
+	graphicsLayer.add(CCNS);
+	graphicsLayer.add(CCON);
+	graphicsLayer.add(CCPEI);
+	graphicsLayer.add(CCQC);
+	graphicsLayer.add(CCSK);
+	graphicsLayer.add(CCYT);
+	graphicsLayer.add(CCNU);
+	graphicsLayer.add(CCNT);
+
+
+	
 });
 
 </script>

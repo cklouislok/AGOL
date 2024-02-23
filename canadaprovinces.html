@@ -30,14 +30,16 @@
 
 	esriConfig.apiKey = "AAPK7ea8e38f6b4b4f969ab170c41c01634akao_m4e5gL3AyABug_bvD9dN7kbXw7BSISXg4Y558XYUVj59ej6DtByYM0Cms4Tz";
 
-	const spatialReference = new esri.geometry.SpatialReference({
-  		wkid: 102002
-	});
+	// const spatialReference = new esri.geometry.SpatialReference({
+  	// 	wkid: 102002
+	// });
 
 	// Create Basemap
 	const myMap = new Map({
 		basemap: "streets", // basemap styles service
-		mapSpatialReference: spatialReference
+		spatialReference: {
+			wkid: 102002
+		}
 	});
 
 	// Create MapView
@@ -47,7 +49,9 @@
 			[-98.28515654638036, 63.76434526496764], //Longitude, latitude
 		zoom: 3,
 		container: "mapDiv",
-		mapSpatialReference: spatialReference
+		spatialReference: {
+			wkid: 102002
+		}
 	});
 
 	// Import Feature Layer from AGOL

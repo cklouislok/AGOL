@@ -24,10 +24,10 @@
     "esri/Map",
     "esri/WebMap",
     "esri/views/MapView",
-	"esri/layers/FeatureLayer",
+
     "esri/Graphic",
     "esri/layers/GraphicsLayer"
-    ], function(esriConfig, Map, WebMap, MapView, FeatureLayer, Graphic, GraphicsLayer) {
+    ], function(esriConfig, Map, WebMap, MapView, Graphic, GraphicsLayer) {
 	
   esriConfig.apiKey = "AAPK7ea8e38f6b4b4f969ab170c41c01634akao_m4e5gL3AyABug_bvD9dN7kbXw7BSISXg4Y558XYUVj59ej6DtByYM0Cms4Tz";
 
@@ -42,10 +42,10 @@
   // Create MapView
   const view = new MapView({
     map: myMap,
-    center: 
-		[-96.8165356,
-        49.7714104], //Longitude, latitude
-    zoom: 3,
+    // center: 
+		// [-96.8165356,
+    //     49.7714104], //Longitude, latitude
+    // zoom: 3,
     container: "mapDiv"
   });
  
@@ -58,8 +58,8 @@
   // url: "https://utility.arcgis.com/usrsvcs/servers/cb0c6d9d713b484484831b8e42a90824/rest/services/geom99pm/CLokCanada/MapServer/0"
   // });
 	
-  // Add feature layer to map view
-  myMap.add(featureLayer);
+  // // Add feature layer to map view
+  // myMap.add(featureLayer);
 
   // Create a graphics layer for drawing geometries
   const graphicsLayer = new GraphicsLayer();
